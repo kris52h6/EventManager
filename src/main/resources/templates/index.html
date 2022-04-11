@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Events</title>
+    <link rel="stylesheet" th:href="@{style.css}" href="../static/style.css">
+</head>
+<body>
+    <main>
+        <section id="events">
+            <h1>All events</h1>
+            <a th:href="@{/createEvent}">Create event</a>
+
+            <div class="events-wrapper">
+                <div class="event" th:each="event: ${events}">
+                    <span class="event-name" th:text="${event.getName()}"></span>
+                    <span class="event-date" th:text="${event.getDateAsString()}"></span>
+                    <span class="event-starttime" th:text="${event.getStartTime()}"></span>
+                    <span class="event-endtime" th:text="${event.getEndTime()}"></span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
