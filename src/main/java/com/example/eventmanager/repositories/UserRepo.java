@@ -1,8 +1,5 @@
 package com.example.eventmanager.repositories;
 
-import org.springframework.web.context.request.WebRequest;
-
-import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class UserRepo {
@@ -54,7 +51,7 @@ public class UserRepo {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String username = "new";
         String password = "ajbc";
 
@@ -62,5 +59,5 @@ public class UserRepo {
                 "VALUES (" + "'" + username + "'" + ", " + "'" + password + "'" + ");";
 
         System.out.println(query);
-    }
+    }*/
 }

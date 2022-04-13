@@ -1,11 +1,11 @@
 package com.example.eventmanager.controllers;
 
-import com.example.eventmanager.repositories.EventRepo;
 import com.example.eventmanager.services.EventService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
@@ -30,5 +30,14 @@ public class EventController {
     public String createNewEvent(WebRequest dataFromForm, HttpSession session) {
         eventService.createEvent(dataFromForm, session);
         return "redirect:/events";
+    }
+
+    @GetMapping("/event")
+    public String singleEvent(Model model, @RequestParam int id) {
+        System.out.println(id);
+        // TODO
+        // get single event
+        model.addAttribute("event", eventService.getSingleEvent(id));
+        return "single-event";
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -50,6 +51,36 @@ public class EventRepo {
             e.printStackTrace();
         }
         return eventList;
+    }
+
+    public Event getSingleEventFromDB(int eventId) {
+        String query = "SELECT * FROM events where event_id = "+eventId + ";";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String dateString = rs.getString(3);
+                LocalDate date = stringToLocalDate(dateString);
+                String startTimeString = rs.getString(4);
+                LocalTime startTime = stringToLocalTime(startTimeString);
+                String endTimeString = rs.getString(5);
+                LocalTime endTime = stringToLocalTime(endTimeString);
+                int userId = Integer.parseInt(rs.getString(6));
+
+                int min = Integer.parseInt(rs.getString(7));
+                int max = Integer.parseInt(rs.getString(8));
+                int signedUp = Integer.parseInt(rs.getString(9));
+
+                return new Event(id, name, date, startTime, endTime, userId, min, max, signedUp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public LocalDate stringToLocalDate(String date) {

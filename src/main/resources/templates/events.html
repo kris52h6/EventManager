@@ -24,6 +24,7 @@
                 <span class="event-date" th:text="${event.getDateAsString()}"></span>
                 <span class="event-starttime" th:text="${event.getStartTime()}"></span>
                 <span class="event-endtime" th:text="${event.getEndTime()}"></span>
+                <a th:href="@{/event?id={id}(id=${event.getId()})}">GOTO</a>
             </div>
         </div>
         <a class="event-link" th:href="@{/createEvent}">Create event</a>

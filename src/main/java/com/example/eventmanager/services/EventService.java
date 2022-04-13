@@ -22,4 +22,8 @@ public class EventService {
         eventRepo.addEventToDB(dataFromForm, session);
 
     }
+
+    public Event getSingleEvent(int id) {
+        return eventRepo.getSingleEventFromDB(id);
+    }
 }
