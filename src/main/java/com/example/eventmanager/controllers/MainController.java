@@ -12,9 +12,9 @@ import javax.servlet.http.HttpSession;
 public class MainController {
     private final UserService userService = new UserService();
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String index() {
-        return "login";
+        return "index";
     }
 
     @PostMapping("/validateUser")
@@ -22,11 +22,23 @@ public class MainController {
         int userId = userService.validateUser(dataFromForm);
         if (userId > 0) {
             session.setAttribute("userId", userId);
-            return "redirect:/";
+            return "redirect:/events";
         } else {
             // TODO create error page
          return "errorMsg";
         }
 
+    }
+
+    @GetMapping("/signUp")
+    public String signUp() {
+        return "signup";
+    }
+
+    @PostMapping("/createAccount")
+    public String createAccount(WebRequest dataFromForm) {
+        // TODO
+        userService.createAccount(dataFromForm);
+        return "redirect:/";
     }
 }

@@ -38,4 +38,29 @@ public class UserRepo {
          else
             return -1;
     }
+
+    public void createAccount(String username, String password) {
+        String query = "INSERT INTO EventManager.users (username, password) " +
+                "VALUES (" + "'" + username + "'" + ", " + "'" + password + "'" + ");";
+
+        System.out.println(query);
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void main(String[] args) {
+        String username = "new";
+        String password = "ajbc";
+
+        String query = "INSERT INTO EventManager.users (username, password) " +
+                "VALUES (" + "'" + username + "'" + ", " + "'" + password + "'" + ");";
+
+        System.out.println(query);
+    }
 }

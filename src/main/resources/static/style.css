@@ -14,10 +14,15 @@ main {
     width: 70%;
 }
 
-#create-event form {
-    display: flex;
-    flex-direction: column;
-}
+
+/*******
+    Event styling
+ */
+
+ form {
+     display: flex;
+     flex-direction: column;
+ }
 
 .title-wrapper {
     display: grid;
@@ -38,20 +43,22 @@ main {
     cursor: pointer;
 }
 
-/*.event-link {
-    padding: 5px;
-}*/
-
 .event-link {
     text-decoration: none;
     color: black;
     background-color: white;
     border: 0.5px solid black;
 }
-/*.event-link:hover {
-    opacity: 80%;
-}*/
 
 .event-link:visited {
     color: black;
 }
+
+
+/*******
+    LOGIN & SIGNUP
+
+ */
+
+
+

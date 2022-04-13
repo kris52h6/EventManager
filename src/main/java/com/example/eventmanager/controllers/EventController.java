@@ -14,10 +14,10 @@ import javax.servlet.http.HttpSession;
 public class EventController {
     private final EventService eventService = new EventService();
 
-    @GetMapping("/")
+    @GetMapping("/events")
     public String getEvents(Model model) {
         model.addAttribute("events", eventService.getEventList());
-        return "index";
+        return "events";
     }
 
     @GetMapping("/createEvent")
@@ -29,6 +29,6 @@ public class EventController {
     @PostMapping("/createNewEvent")
     public String createNewEvent(WebRequest dataFromForm, HttpSession session) {
         eventService.createEvent(dataFromForm, session);
-        return "redirect:/";
+        return "redirect:/events";
     }
 }

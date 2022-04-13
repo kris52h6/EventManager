@@ -15,4 +15,10 @@ public class UserService {
         String password = dataFromForm.getParameter("password");
         return userRepo.validateUser(username, password);
     }
+
+    public void createAccount(WebRequest dataFromForm) {
+        String username = dataFromForm.getParameter("username");
+        String password = dataFromForm.getParameter("password");
+        userRepo.createAccount(username, password);
+    }
 }
