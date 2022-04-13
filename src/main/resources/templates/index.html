@@ -9,7 +9,14 @@
     <main>
         <section id="events">
             <h1>All events</h1>
-            <a th:href="@{/createEvent}">Create event</a>
+
+            <div class="title-wrapper">
+                <span class="title">Name</span>
+                <span class="title">Date</span>
+                <span class="title">Start time</span>
+                <span class="title">End time</span>
+                <span class="title">Attendees</span>
+            </div>
 
             <div class="events-wrapper">
                 <div class="event" th:each="event: ${events}">
@@ -19,6 +26,7 @@
                     <span class="event-endtime" th:text="${event.getEndTime()}"></span>
                 </div>
             </div>
+            <a class="event-link" th:href="@{/createEvent}">Create event</a>
         </section>
     </main>
 

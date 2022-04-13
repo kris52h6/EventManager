@@ -4,12 +4,54 @@
     font-family: "Helvetica Neue", sans-serif;
 }
 
+body {
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+}
+
 main {
     margin: 0 auto;
-    width: 80%;
+    width: 70%;
 }
 
 #create-event form {
     display: flex;
     flex-direction: column;
+}
+
+.title-wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 5px;
+}
+
+.events-wrapper {
+    border: 1px solid black;
+    background-color: white;
+}
+
+.event {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 10px 5px 10px 5px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+/*.event-link {
+    padding: 5px;
+}*/
+
+.event-link {
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border: 0.5px solid black;
+}
+/*.event-link:hover {
+    opacity: 80%;
+}*/
+
+.event-link:visited {
+    color: black;
 }

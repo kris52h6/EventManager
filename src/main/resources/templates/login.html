@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{style.css}" href="../static/style.css">
+
+</head>
+<body>
+  <main>
+    <div class="login-wrapper">
+        <form method="POST" action="/validateUser">
+            <label for="username">Username:</label>
+            <input id="username" type="text" name="username">
+            <label for="password">Password</label>
+            <input id="password" type="text" name="password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+  </main>
+
+</body>
+</html>

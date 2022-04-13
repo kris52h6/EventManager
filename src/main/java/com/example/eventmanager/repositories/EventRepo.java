@@ -20,7 +20,7 @@ public class EventRepo {
 
     public ArrayList<Event> getEventsFromDB() {
         eventList.removeAll(eventList);
-        String query = "SELECT * FROM events";
+        String query = "SELECT * FROM events ORDER BY event_date";
         try {
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
@@ -35,9 +35,11 @@ public class EventRepo {
                 String endTimeString = rs.getString(5);
                 LocalTime endTime = stringToLocalTime(endTimeString);
                 int userId = Integer.parseInt(rs.getString(6));
+
                 int min = Integer.parseInt(rs.getString(7));
                 int max = Integer.parseInt(rs.getString(8));
                 int signedUp = Integer.parseInt(rs.getString(9));
+
 
                 Event event = new Event(id, name, date, startTime, endTime, userId, min, max, signedUp);
                 eventList.add(event);
@@ -65,10 +67,21 @@ public class EventRepo {
         String eventStartTime = dataFromForm.getParameter("event-starttime");
         String eventEndTime = dataFromForm.getParameter("event-endtime");
         String min = dataFromForm.getParameter("event-min");
-        String max = dataFromForm.getParameter("event-max");
 
-        String query = "INSERT INTO events (`event_name`, `event_date`, `event_starttime`, `event_endtime`, `event_minimum`, `event_maximum`) " +
-                "VALUES (" + "'" + name + "', '" + eventDate + "', '" + eventStartTime + "', '" + eventEndTime + "', '" + min + "', '" + max + "'" +")";
+        //TODO get userId from HttpSession
+        int userId = 1;
+        int signedUp = 0;
+
+        if (min == null) {
+            min = "0";
+        }
+        String max = dataFromForm.getParameter("event-max");
+        if (max == null) {
+            max = "0";
+        }
+
+        String query = "INSERT INTO events (`event_name`, `event_date`, `event_starttime`, `event_endtime`, `event_userid`, `event_minimum`, `event_maximum`, `event_signedup`) " +
+                "VALUES (" + "'" + name + "', '" + eventDate + "', '" + eventStartTime + "', '" + eventEndTime + "', '" + userId + "', '" + min + "', '" + max + "', '" + signedUp + "'" +")";
 
         System.out.println(query);
 
