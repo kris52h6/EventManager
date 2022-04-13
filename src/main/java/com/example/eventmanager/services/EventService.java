@@ -4,6 +4,7 @@ import com.example.eventmanager.models.Event;
 import com.example.eventmanager.repositories.EventRepo;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 public class EventService {
@@ -17,8 +18,8 @@ public class EventService {
         return eventRepo.getEventsFromDB();
     }
 
-    public void createEvent(WebRequest dataFromForm) {
-        eventRepo.addEventToDB(dataFromForm);
+    public void createEvent(WebRequest dataFromForm, HttpSession session) {
+        eventRepo.addEventToDB(dataFromForm, session);
 
     }
 }

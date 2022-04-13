@@ -3,6 +3,8 @@ package com.example.eventmanager.repositories;
 import com.example.eventmanager.models.Event;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.SessionCookieConfig;
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -60,7 +62,7 @@ public class EventRepo {
         return LocalTime.parse(time, formatter);
     }
 
-    public void addEventToDB(WebRequest dataFromForm) {
+    public void addEventToDB(WebRequest dataFromForm, HttpSession session) {
         String name = dataFromForm.getParameter("name");
         String eventDateString = dataFromForm.getParameter("event-date");
         LocalDate eventDate = stringToLocalDate(eventDateString);
@@ -68,8 +70,7 @@ public class EventRepo {
         String eventEndTime = dataFromForm.getParameter("event-endtime");
         String min = dataFromForm.getParameter("event-min");
 
-        //TODO get userId from HttpSession
-        int userId = 1;
+        int userId = (int) session.getAttribute("userId");
         int signedUp = 0;
 
         if (min == null) {

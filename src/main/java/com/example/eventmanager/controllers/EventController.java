@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class EventController {
     private final EventService eventService = new EventService();
@@ -25,8 +27,8 @@ public class EventController {
     }
 
     @PostMapping("/createNewEvent")
-    public String createNewEvent(WebRequest dataFromForm) {
-        eventService.createEvent(dataFromForm);
+    public String createNewEvent(WebRequest dataFromForm, HttpSession session) {
+        eventService.createEvent(dataFromForm, session);
         return "redirect:/";
     }
 }
