@@ -1,6 +1,7 @@
 package com.example.eventmanager.services;
 
 import com.example.eventmanager.models.Event;
+import com.example.eventmanager.models.User;
 import com.example.eventmanager.repositories.EventRepo;
 import org.springframework.web.context.request.WebRequest;
 
@@ -25,5 +26,33 @@ public class EventService {
 
     public Event getSingleEvent(int id) {
         return eventRepo.getSingleEventFromDB(id);
+    }
+
+    public ArrayList<User> getAttendeesFromEvent(int eventId) {
+        ArrayList<Integer> attendeeList = eventRepo.getAttendeesFromEvent(eventId);
+        ArrayList<User> userList = new ArrayList<>();
+
+        for (int attendee : attendeeList) {
+            User u = getUserFromDb(attendee);
+            userList.add(u);
+        }
+
+        return userList;
+    }
+
+    private User getUserFromDb(int attendee) {
+        return eventRepo.getUserFromDb(attendee);
+    }
+
+    public ArrayList<User> showUsers(int eventId) {
+        return eventRepo.getUsersNotAttending(eventId);
+    }
+
+    public void addAttendant(int id, int eventId) {
+        eventRepo.addAttendant(id, eventId);
+    }
+
+    public void deleteAttendant(int id, int eventId) {
+        eventRepo.deleteAttendant(id, eventId);
     }
 }

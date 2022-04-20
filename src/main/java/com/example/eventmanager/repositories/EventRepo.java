@@ -1,6 +1,7 @@
 package com.example.eventmanager.repositories;
 
 import com.example.eventmanager.models.Event;
+import com.example.eventmanager.models.User;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.SessionCookieConfig;
@@ -125,10 +126,149 @@ public class EventRepo {
             e.printStackTrace();
         }
 
-
     }
+
+    public ArrayList<Integer> getAttendeesFromEvent(int eventId) {
+        ArrayList<Integer> attendeeList = new ArrayList<>();
+        String query = "SELECT * FROM attendees where event_id= "+eventId + ";";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                attendeeList.add(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return attendeeList;
+    }
+
 
     public static void main(String[] args) {
+        EventRepo er = new EventRepo();
+        ArrayList<Integer> t = er.getAttendeesFromEvent(1);
+
+        /*for (int i : t) {
+            System.out.println(i);
+        }
+
+        User u = er.getUserFromDb(1);
+        System.out.println(u.getId());
+        System.out.println(u.getUsername());*/
+
+        String query = "SELECT * FROM EventManager.users WHERE user_id NOT IN ";
+        query += "(";
+        int count = 0;
+        for (int i : t) {
+            count++;
+            if (count < t.size()) {
+                query += i + ", ";
+            } else {
+                query += i;
+            }
+        }
+        query += ");";
+        System.out.println(query);
+
+
+
     }
 
+
+
+    public User getUserFromDb(int attendee) {
+        String query = "SELECT * FROM users where user_id = "+attendee + ";";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            int userId = 0;
+            String username = null;
+
+            while (rs.next()) {
+                userId = rs.getInt(1);
+                username = rs.getString(2);
+                return new User(userId, username);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public ArrayList<User> getUsersNotAttending(int id) {
+        ArrayList<Integer> attendeeList = getAttendeesFromEvent(id);
+        ArrayList<User> userList = new ArrayList<>();
+
+        String query = prepareQuery(attendeeList);
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            int userId = 0;
+            String username = null;
+
+            while(rs.next()) {
+                userId = rs.getInt(1);
+                username = rs.getString(2);
+                userList.add(new User(userId, username));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    public String prepareQuery(ArrayList<Integer> list) {
+        String query = "SELECT * FROM EventManager.users WHERE user_id NOT IN ";
+        if (list.size() == 0) {
+            query = "SELECT * FROM EventManager.users WHERE user_id NOT IN (0);";
+            return query;
+        }
+        query += "(";
+        int count = 0;
+        for (int i : list) {
+            count++;
+            if (count < list.size()) {
+                query += i + ", ";
+            } else {
+                query += i;
+            }
+        }
+        query += ");";
+        return query;
+    }
+
+
+
+    public void addAttendant(int id, int eventId) {
+        String query = "INSERT INTO attendees (`user_id`, `event_id`) " +
+                "VALUES (" + "'" + id + "', '" + eventId + "'" + ")";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAttendant(int id, int eventId) {
+        String query = "DELETE FROM attendees " +
+                "WHERE user_id = "+ id + " AND event_id = " + eventId + ";";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

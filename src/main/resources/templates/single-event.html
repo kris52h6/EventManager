@@ -18,6 +18,27 @@
                 <span class="event-endtime" th:text="${event.getEndTime()}"></span>
             </div>
         </div>
+
+        <div class="event-attendees">
+            <h3>Attendees:</h3>
+            <div class="attendee-wrapper">
+            <div class="attendee" th:each="user: ${attendees}">
+                <span class="attendee-name" th:text="${user.getUsername()}"></span>
+                <a th:href="@{/deleteAttendee?id={id}(id=${user.getId()})}">-</a>
+
+            </div>
+            </div>
+        </div>
+
+        <div class="users">
+            <h3>Invite users:</h3>
+            <div class="user-wrapper">
+            <div class="user" th:each="user: ${users}">
+                <span class="user-name" th:text="${user.getUsername()}"></span>
+                <a th:href="@{/addUser?id={id}(id=${user.getId()})}">+</a>
+            </div>
+            </div>
+        </div>
     </main>
 
 </body>

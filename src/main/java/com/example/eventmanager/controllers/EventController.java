@@ -1,5 +1,6 @@
 package com.example.eventmanager.controllers;
 
+import com.example.eventmanager.models.User;
 import com.example.eventmanager.services.EventService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 public class EventController {
@@ -33,11 +35,27 @@ public class EventController {
     }
 
     @GetMapping("/event")
-    public String singleEvent(Model model, @RequestParam int id) {
-        System.out.println(id);
-        // TODO
-        // get single event
+    public String singleEvent(Model model, @RequestParam int id, HttpSession session) {
+        session.setAttribute("id", id);
         model.addAttribute("event", eventService.getSingleEvent(id));
+        model.addAttribute("attendees", eventService.getAttendeesFromEvent(id));
+        model.addAttribute("users", eventService.showUsers(id));
         return "single-event";
     }
+
+    @GetMapping("/addUser")
+    public String addUser(@RequestParam int id, HttpSession session) {
+        int eventId = (int) session.getAttribute("id");
+        eventService.addAttendant(id, eventId);
+        return "redirect:/event?id=" + eventId;
+    }
+
+    @GetMapping("/deleteAttendee")
+    public String deleteAttendee(@RequestParam int id, HttpSession session) {
+        int eventId = (int) session.getAttribute("id");
+        eventService.deleteAttendant(id, eventId);
+        return "redirect:/event?id=" + eventId;
+    }
+
+
 }
